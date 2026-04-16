@@ -1,5 +1,6 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'screens/dashboard_screen.dart';
 
 void main() {
   runApp(
@@ -21,22 +22,13 @@ class MyApp extends StatelessWidget {
       title: 'Memio',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1D4ED8)), 
         useMaterial3: true,
+        scaffoldBackgroundColor: Colors.white,
+        fontFamily: 'Roboto',
       ),
-      home: const HomeScreen(),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.white,
-      body: SizedBox.expand(),
+      // Apuntamos al Dashboard
+      home: const DashboardScreen(), 
     );
   }
 }
