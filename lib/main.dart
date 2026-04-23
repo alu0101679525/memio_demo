@@ -1,6 +1,6 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
-import 'screens/dashboard_screen.dart';
+import 'main_wrapper.dart';
 
 void main() {
   runApp(
@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         fontFamily: 'Roboto',
       ),
-      // Apuntamos al Dashboard
-      home: const DashboardScreen(), 
+      // Apuntamos a MainWrapper
+      home: const MainWrapper(),
     );
   }
 }

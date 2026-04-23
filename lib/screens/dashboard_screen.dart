@@ -8,9 +8,6 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  // Índice para la barra de navegación inferior
-  int _selectedIndex = 0;
-
   // Dummy data para los mazos
   final List<Map<String, dynamic>> _decks = [
     {
@@ -37,49 +34,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          'MEMIO',
-          style: TextStyle(
-            color: Color(0xFF1D4ED8),
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-            letterSpacing: 1.2,
-          ),
-        ),
-        actions: [
-          // Créditos
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: Center(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: Colors.blue.shade50,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.monetization_on, color: Colors.blue.shade600, size: 14),
-                    const SizedBox(width: 4),
-                    Text(
-                      '420 CRÉDITOS',
-                      style: TextStyle(
-                        color: Colors.blue.shade800,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
@@ -125,47 +79,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           // TODO: Acción para añadir nuevo mazo
         },
         child: const Icon(Icons.add, color: Colors.white, size: 28),
-      ),
-      // Barra de navegación inferior
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xFF1D4ED8),
-        unselectedItemColor: Colors.grey.shade400,
-        backgroundColor: Colors.white,
-        elevation: 10,
-        type: BottomNavigationBarType.fixed,
-        selectedFontSize: 10,
-        unselectedFontSize: 10,
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-          // TODO: Conectar con las pantallas de IA Hub y Perfil
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Padding(
-              padding: EdgeInsets.only(bottom: 4.0),
-              child: Icon(Icons.style), // Simulando el icono de tarjetas/estudio
-            ),
-            label: 'ESTUDIO',
-          ),
-          BottomNavigationBarItem(
-            icon: Padding(
-              padding: EdgeInsets.only(bottom: 4.0),
-              child: Icon(Icons.auto_awesome), // Simulando el icono de IA
-            ),
-            label: 'IA HUB',
-          ),
-          BottomNavigationBarItem(
-            icon: Padding(
-              padding: EdgeInsets.only(bottom: 4.0),
-              child: Icon(Icons.person),
-            ),
-            label: 'PERFIL',
-          ),
-        ],
       ),
     );
   }
