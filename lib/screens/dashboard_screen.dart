@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'srs_mode_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -83,56 +84,107 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  // Widget personalizado para cada tarjeta de mazo
   Widget _buildDeckCard(Map<String, dynamic> deck) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade200),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+    return GestureDetector(
+      onTap: () => _showStudyModeDialog(context, deck['title']),
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.grey.shade200),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.03),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              deck['title'],
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87),
+            ),
+            const SizedBox(height: 16),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: LinearProgressIndicator(
+                value: deck['progress'],
+                backgroundColor: Colors.grey.shade100,
+                color: deck['color'],
+                minHeight: 6,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              '${(deck['progress'] * 100).toInt()}% Dominado • ${deck['newCards']} tarjetas nuevas',
+              style: TextStyle(color: Colors.grey.shade500, fontSize: 13),
+            ),
+          ],
+        ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            deck['title'],
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
-          ),
-          const SizedBox(height: 16),
-          // Barra de progreso
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: LinearProgressIndicator(
-              value: deck['progress'],
-              backgroundColor: Colors.grey.shade100,
-              color: deck['color'],
-              minHeight: 6,
-            ),
-          ),
-          const SizedBox(height: 12),
-          // Texto descriptivo inferior
-          Text(
-            '${(deck['progress'] * 100).toInt()}% Dominado • ${deck['newCards']} tarjetas nuevas',
-            style: TextStyle(
-              color: Colors.grey.shade500,
-              fontSize: 13,
-            ),
-          ),
-        ],
+    );
+  }
+
+  // Menú para elegir el modo de estudio
+  void _showStudyModeDialog(BuildContext context, String deckTitle) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
+      builder: (context) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Estudiar $deckTitle', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 20),
+                ListTile(
+                  leading: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(color: Colors.blue.shade50, borderRadius: BorderRadius.circular(8)),
+                    child: Icon(Icons.style, color: Colors.blue.shade600),
+                  ),
+                  title: const Text('Repetición Espaciada (SRS)', style: TextStyle(fontWeight: FontWeight.w500)),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SrsModeScreen(deckTitle: deckTitle)),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(8)),
+                    child: const Icon(Icons.grid_view, color: Colors.grey),
+                  ),
+                  title: const Text('Modo Parejas (WIP)', style: TextStyle(color: Colors.grey)),
+                  onTap: () => Navigator.pop(context),
+                ),
+                ListTile(
+                  leading: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(8)),
+                    child: const Icon(Icons.edit_note, color: Colors.grey),
+                  ),
+                  title: const Text('Respuesta Escrita (WIP)', style: TextStyle(color: Colors.grey)),
+                  onTap: () => Navigator.pop(context),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
