@@ -16,22 +16,22 @@ class _SrsModeScreenState extends State<SrsModeScreen> {
   // Dummy data con listas de preguntas según el mazo
   final Map<String, List<Map<String, String>>> _deckData = {
     'Anatomía Humana': [
-      {
-        'q': '¿Cuál es la función principal de las mitocondrias en la célula?',
-        'a': 'Producción de energía química en forma de ATP mediante la respiración celular.'
-      },
-      {
-        'q': '¿Qué hueso es el más largo del cuerpo humano?',
-        'a': 'El fémur.'
-      },
+      {'q': '¿Cuál es la función principal de las mitocondrias en la célula?', 'a': 'Producción de energía química en forma de ATP mediante la respiración celular.'},
+      {'q': '¿Qué hueso es el más largo del cuerpo humano?', 'a': 'El fémur.'},
+      {'q': '¿Qué órgano del cuerpo humano es responsable de bombear la sangre?', 'a': 'El corazón.'},
+      {'q': '¿Qué órganos del sistema respiratorio se encargan de obtener el oxígeno?', 'a': 'Los pulmones.'},
     ],
     'Vocabulario Inglés': [
-      {'q': 'Apple', 'a': 'Manzana'},
-      {'q': 'Dog', 'a': 'Perro'},
+      {'q': 'Perro', 'a': 'Dog'},
+      {'q': 'Libro', 'a': 'Book'},
+      {'q': 'Manzana', 'a': 'Apple'},
+      {'q': 'Gato', 'a': 'Cat'},
     ],
     'Constitución Española': [
       {'q': '¿En qué año se aprobó la Constitución Española?', 'a': 'En 1978'},
       {'q': '¿Cuál es la forma política del Estado español?', 'a': 'La Monarquía parlamentaria.'},
+      {'q': '¿Quién es el jefe del Estado en España?', 'a': 'El Rey.'},
+      {'q': '¿Cuál es la lengua oficial del Estado español?', 'a': 'El castellano.'},
     ],
   };
 

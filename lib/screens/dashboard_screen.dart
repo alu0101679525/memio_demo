@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'srs_mode_screen.dart';
+import 'match_mode_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -21,13 +22,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
       'title': 'Vocabulario Inglés',
       'progress': 0.40,
       'color': Colors.green.shade500,
-      'newCards': 25,
+      'newCards': 15,
     },
     {
       'title': 'Constitución Española',
       'progress': 0.15,
       'color': Colors.orange.shade500,
-      'newCards': 50,
+      'newCards': 7,
     },
   ];
 
@@ -138,7 +139,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) {
+      builder: (bottomSheetContext) {
         return SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
@@ -155,7 +156,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   title: const Text('Repetición Espaciada (SRS)', style: TextStyle(fontWeight: FontWeight.w500)),
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.pop(bottomSheetContext);
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => SrsModeScreen(deckTitle: deckTitle)),
@@ -165,11 +166,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ListTile(
                   leading: Container(
                     padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(8)),
-                    child: const Icon(Icons.grid_view, color: Colors.grey),
+                    decoration: BoxDecoration(color: Colors.blue.shade50, borderRadius: BorderRadius.circular(8)),
+                    child: Icon(Icons.grid_view, color: Colors.blue.shade600),
                   ),
-                  title: const Text('Modo Parejas (WIP)', style: TextStyle(color: Colors.grey)),
-                  onTap: () => Navigator.pop(context),
+                  title: const Text('Modo Parejas', style: TextStyle(fontWeight: FontWeight.w500)),
+                  onTap: () {
+                    Navigator.pop(bottomSheetContext);
+                    _showMatchModeConfigDialog(context, deckTitle);
+                  },
                 ),
                 ListTile(
                   leading: Container(
@@ -178,11 +182,77 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: const Icon(Icons.edit_note, color: Colors.grey),
                   ),
                   title: const Text('Respuesta Escrita (WIP)', style: TextStyle(color: Colors.grey)),
-                  onTap: () => Navigator.pop(context),
+                  onTap: () => Navigator.pop(bottomSheetContext),
                 ),
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  // Diálogo para la elección del número de tarjetas
+  void _showMatchModeConfigDialog(BuildContext context, String deckTitle) {
+    double sliderValue = 4;
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              title: const Text('Configurar sesión', style: TextStyle(fontWeight: FontWeight.bold)),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'Elige el número de tarjetas a estudiar.',
+                    style: TextStyle(color: Colors.black87),
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    '${sliderValue.toInt()} Tarjetas',
+                    style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1D4ED8), fontSize: 18),
+                  ),
+                  Slider(
+                    value: sliderValue,
+                    min: 4,
+                    max: 32,
+                    divisions: 7,
+                    activeColor: const Color(0xFF1D4ED8),
+                    inactiveColor: Colors.blue.shade100,
+                    onChanged: (value) {
+                      setState(() {
+                        sliderValue = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(dialogContext),
+                  child: const Text('Cancelar', style: TextStyle(color: Colors.grey)),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(dialogContext);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MatchModeScreen(deckTitle: deckTitle)),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF1D4ED8),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  ),
+                  child: const Text('Empezar', style: TextStyle(color: Colors.white)),
+                ),
+              ],
+            );
+          }
         );
       },
     );
