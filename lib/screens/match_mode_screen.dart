@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// Estados posibles de cada tarjeta en el juego
+// Estados posibles de cada tarjeta en la sesión
 enum CardState { normal, selected, matched, error }
 
 class MatchCard {
@@ -21,7 +21,7 @@ class MatchModeScreen extends StatefulWidget {
 }
 
 class _MatchModeScreenState extends State<MatchModeScreen> {
-  // Ahora tenemos dos columnas separadas
+  // Hacemos dos columnas separadas
   final List<MatchCard> _leftColumn = [];
   final List<MatchCard> _rightColumn = [];
   
@@ -37,7 +37,7 @@ class _MatchModeScreenState extends State<MatchModeScreen> {
   }
 
   void _initializeGame() {
-    // Dummy Data para todos los mazos adaptada a formato corto
+    // Dummy data para en formato corto
     final Map<String, List<Map<String, String>>> deckData = {
       'Anatomía Humana': [
         {'q': 'Mitocondria', 'a': 'Energía'},
