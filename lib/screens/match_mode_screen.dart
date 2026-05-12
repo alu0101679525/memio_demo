@@ -37,7 +37,7 @@ class _MatchModeScreenState extends State<MatchModeScreen> {
   }
 
   void _initializeGame() {
-    // Dummy data para en formato corto
+    // Dummy data en formato corto
     final Map<String, List<Map<String, String>>> deckData = {
       'Anatomía Humana': [
         {'q': 'Mitocondria', 'a': 'Energía'},
@@ -46,10 +46,10 @@ class _MatchModeScreenState extends State<MatchModeScreen> {
         {'q': 'Pulmones', 'a': 'Oxígeno'},
       ],
       'Vocabulario Inglés': [
-        {'q': 'Perro', 'a': 'Dog'},
-        {'q': 'Libro', 'a': 'Book'},
-        {'q': 'Manzana', 'a': 'Apple'},
-        {'q': 'Gato', 'a': 'Cat'},
+        {'q': 'Dog', 'a': 'Perro'},
+        {'q': 'Book', 'a': 'Libro'},
+        {'q': 'Apple', 'a': 'Manzana'},
+        {'q': 'Cat', 'a': 'Gato'},
       ],
       'Constitución Española': [
         {'q': 'Aprobación', 'a': 'Año 1978'},
@@ -138,7 +138,7 @@ class _MatchModeScreenState extends State<MatchModeScreen> {
           children: [
             Expanded(
               child: Text(
-                'PAREJAS: ${widget.deckTitle.toUpperCase()}',
+                widget.deckTitle.toUpperCase(),
                 style: const TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1.1),
                 overflow: TextOverflow.ellipsis,
               ),

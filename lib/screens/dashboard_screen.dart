@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'srs_mode_screen.dart';
 import 'match_mode_screen.dart';
+import 'written_mode_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -154,7 +155,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     decoration: BoxDecoration(color: Colors.blue.shade50, borderRadius: BorderRadius.circular(8)),
                     child: Icon(Icons.style, color: Colors.blue.shade600),
                   ),
-                  title: const Text('Repetición Espaciada (SRS)', style: TextStyle(fontWeight: FontWeight.w500)),
+                  title: const Text('Repetición Espaciada', style: TextStyle(fontWeight: FontWeight.w500)),
                   onTap: () {
                     Navigator.pop(bottomSheetContext);
                     Navigator.push(
@@ -169,20 +170,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     decoration: BoxDecoration(color: Colors.blue.shade50, borderRadius: BorderRadius.circular(8)),
                     child: Icon(Icons.grid_view, color: Colors.blue.shade600),
                   ),
-                  title: const Text('Modo Parejas', style: TextStyle(fontWeight: FontWeight.w500)),
+                  title: const Text('Parejas', style: TextStyle(fontWeight: FontWeight.w500)),
                   onTap: () {
                     Navigator.pop(bottomSheetContext);
-                    _showMatchModeConfigDialog(context, deckTitle);
+                    _showConfigDialog(context, deckTitle, false);
                   },
                 ),
                 ListTile(
                   leading: Container(
                     padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(8)),
-                    child: const Icon(Icons.edit_note, color: Colors.grey),
+                    decoration: BoxDecoration(color: Colors.blue.shade50, borderRadius: BorderRadius.circular(8)),
+                    child: Icon(Icons.edit_note, color: Colors.blue.shade600),
                   ),
-                  title: const Text('Respuesta Escrita (WIP)', style: TextStyle(color: Colors.grey)),
-                  onTap: () => Navigator.pop(bottomSheetContext),
+                  title: const Text('Respuesta Escrita', style: TextStyle(fontWeight: FontWeight.w500)),
+                  onTap: () {
+                    Navigator.pop(bottomSheetContext);
+                    _showConfigDialog(context, deckTitle, true);
+                  },
                 ),
               ],
             ),
@@ -193,7 +197,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   // Diálogo para la elección del número de tarjetas
-  void _showMatchModeConfigDialog(BuildContext context, String deckTitle) {
+  void _showConfigDialog(BuildContext context, String deckTitle, bool isWrittenMode) {
+    // Si es modo escritura: min 1, max 16 (divisiones de 1 en 1 = 15 divisiones)
+    // Si es modo parejas: min 2, max 32 (divisiones de 2 en 2 = 15 divisiones)
+    
+    double minVal = isWrittenMode ? 1 : 2;
+    double maxVal = isWrittenMode ? 16 : 32;
+    int divisions = 15;
     double sliderValue = 4;
 
     showDialog(
@@ -207,10 +217,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    'Elige el número de tarjetas a estudiar.',
-                    style: TextStyle(color: Colors.black87),
-                  ),
+                  const Text('Elige el número de tarjetas a estudiar.', style: TextStyle(color: Colors.black87)),
                   const SizedBox(height: 24),
                   Text(
                     '${sliderValue.toInt()} Tarjetas',
@@ -218,16 +225,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   Slider(
                     value: sliderValue,
-                    min: 4,
-                    max: 32,
-                    divisions: 7,
+                    min: minVal,
+                    max: maxVal,
+                    divisions: divisions,
                     activeColor: const Color(0xFF1D4ED8),
                     inactiveColor: Colors.blue.shade100,
-                    onChanged: (value) {
-                      setState(() {
-                        sliderValue = value;
-                      });
-                    },
+                    onChanged: (value) => setState(() => sliderValue = value),
                   ),
                 ],
               ),
@@ -241,7 +244,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Navigator.pop(dialogContext);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MatchModeScreen(deckTitle: deckTitle)),
+                      MaterialPageRoute(
+                        builder: (context) => isWrittenMode 
+                          ? WrittenModeScreen(deckTitle: deckTitle)
+                          : MatchModeScreen(deckTitle: deckTitle),
+                      ),
                     );
                   },
                   style: ElevatedButton.styleFrom(

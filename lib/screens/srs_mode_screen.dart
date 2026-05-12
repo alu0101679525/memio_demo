@@ -22,10 +22,10 @@ class _SrsModeScreenState extends State<SrsModeScreen> {
       {'q': '¿Qué órganos del sistema respiratorio se encargan de obtener el oxígeno?', 'a': 'Los pulmones.'},
     ],
     'Vocabulario Inglés': [
-      {'q': 'Perro', 'a': 'Dog'},
-      {'q': 'Libro', 'a': 'Book'},
-      {'q': 'Manzana', 'a': 'Apple'},
-      {'q': 'Gato', 'a': 'Cat'},
+      {'q': 'Dog', 'a': 'Perro'},
+      {'q': 'Book', 'a': 'Libro'},
+      {'q': 'Apple', 'a': 'Manzana'},
+      {'q': 'Cat', 'a': 'Gato'},
     ],
     'Constitución Española': [
       {'q': '¿En qué año se aprobó la Constitución Española?', 'a': 'En 1978'},
